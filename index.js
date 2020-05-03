@@ -1,3 +1,5 @@
+const fs = require('fs')
+const path = require('path')
 const Ctl = require('ipfsd-ctl')
 
 async function spawn ({ repo, ipfsBin }) {
