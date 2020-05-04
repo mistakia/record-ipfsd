@@ -42,9 +42,9 @@ async function spawn ({ repo, ipfsBin }) {
   return ipfsd
 }
 
-function rmApiFile (ipfsd) {
-  return fs.unlinkSync(path.join(ipfsd.path, 'api'))
-}
+const rmApiFile = (ipfsd) => fs.unlinkSync(path.join(ipfsd.path, 'api'))
+const swarmKey = '/key/swarm/psk/1.0.0/\n/base16/\ncbad12031badbcad2a3cd5a373633fa725a7874de942d451227a9e909733454a'
+const copySwarmKey = (ipfsd) => fs.writeFileSync(path.join(ipfsd.path, 'swarm.key'), swarmKey)
 
 /**
  *
@@ -56,6 +56,8 @@ function rmApiFile (ipfsd) {
  */
 module.exports = async function (opts) {
   const ipfsd = await spawn(opts)
+
+  copySwarmKey(ipfsd)
 
   try {
     await ipfsd.start()
