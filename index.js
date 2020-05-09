@@ -36,7 +36,8 @@ async function spawn ({ repo, ipfsBin }) {
 
   await ipfsd.init({
     bits: 2048,
-    emptyRepo: true
+    emptyRepo: true,
+    profiles: ['badgerds']
   })
 
   return ipfsd
