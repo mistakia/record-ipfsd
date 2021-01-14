@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "ipfs-http-client": "^44.0.1",
-    "ipfsd-ctl": "^4.1.0"
+    "ipfs-http-client": "47.0.1",
+    "ipfsd-ctl": "7.2.0"
   }
 }

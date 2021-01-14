@@ -13,7 +13,8 @@ async function spawn ({ repo, ipfsBin }) {
           Router: 'gossipsub'
         },
         Bootstrap: [
-          "/ip4/206.189.77.125/tcp/4001/p2p/QmbxBgAFuyfM1upC72GujTNJeKDKg8nbMnbt3SUX8hrFWm"
+          // TODO - use dns
+          '/ip4/167.71.252.107/tcp/4001/p2p/QmYgXkG9rq2YGvzm2YZ55sFVjFvWH2p4o4bV7asxEh8zAS'
         ],
         Swarm: {
           ConnMgr: {
@@ -59,6 +60,7 @@ module.exports = async function (opts) {
   const ipfsd = await spawn(opts)
 
   copySwarmKey(ipfsd)
+  // TODO - update bootstrap addresses in existing config
 
   try {
     await ipfsd.start()
