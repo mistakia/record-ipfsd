@@ -4,6 +4,7 @@ const Ctl = require('ipfsd-ctl')
 
 async function spawn ({ repo, ipfsBin }) {
   const ipfsd = await Ctl.createController({
+    type: 'go',
     ipfsHttpModule: require('ipfs-http-client'),
     ipfsBin,
     ipfsOptions: {
@@ -36,8 +37,6 @@ async function spawn ({ repo, ipfsBin }) {
   })
 
   await ipfsd.init({
-    bits: 2048,
-    emptyRepo: true,
     profiles: ['badgerds']
   })
 
