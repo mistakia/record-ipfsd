@@ -14,8 +14,7 @@ async function spawn ({ repo, ipfsBin }) {
           Router: 'gossipsub'
         },
         Bootstrap: [
-          // TODO - use dns
-          '/ip4/167.71.252.107/tcp/4001/p2p/QmYgXkG9rq2YGvzm2YZ55sFVjFvWH2p4o4bV7asxEh8zAS'
+          '/dnsaddr/record.tint.space/p2p/QmYgXkG9rq2YGvzm2YZ55sFVjFvWH2p4o4bV7asxEh8zAS'
         ],
         Swarm: {
           ConnMgr: {
