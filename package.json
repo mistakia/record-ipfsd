@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "ipfs-http-client": "47.0.1",
-    "ipfsd-ctl": "7.2.0"
+    "ipfsd-ctl": "7.2.0",
+    "jsonfile": "^6.1.0"
   }
 }

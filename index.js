@@ -1,28 +1,53 @@
 const fs = require('fs')
+const jsonfile = require('jsonfile')
 const path = require('path')
+const { join } = require('path')
 const Ctl = require('ipfsd-ctl')
 
-async function spawn ({ repo, ipfsBin }) {
+function configPath (ipfsd) {
+  return join(ipfsd.path, 'config')
+}
+
+function writeConfigFile (ipfsd, config) {
+  jsonfile.writeFileSync(configPath(ipfsd), config, { spaces: 2 })
+}
+
+function readConfigFile (ipfsd) {
+  return jsonfile.readFileSync(configPath(ipfsd))
+}
+
+function applyDefaults (ipfsd, { Identity }) {
+  const config = readConfigFile(ipfsd)
+
+  config.API = { HTTPHeaders: {} }
+
+  config.Bootstrap = [ '/dnsaddr/record.tint.space/p2p/QmYgXkG9rq2YGvzm2YZ55sFVjFvWH2p4o4bV7asxEh8zAS' ]
+  config.Swarm = config.Swarm || {}
+  config.Swarm.DisableNatPortMap = false
+  config.Swarm.ConnMgr = config.Swarm.ConnMgr || {}
+  config.Swarm.ConnMgr.GracePeriod = '300s'
+  config.Swarm.ConnMgr.LowWater = 50
+  config.Swarm.ConnMgr.HighWater = 300
+
+  config.Discovery = config.Discovery || {}
+  config.Discovery.MDNS = config.Discovery.MDNS || {}
+  config.Discovery.MDNS.Enabled = true
+
+  config.Pubsub = config.Pubsub || {}
+  config.Pubsub.Router = 'gossipsub'
+
+  config.Identity = Identity || config.Identity
+
+  writeConfigFile(ipfsd, config)
+}
+
+async function spawn ({ repo, ipfsBin, Identity }) {
   const ipfsd = await Ctl.createController({
     type: 'go',
     ipfsHttpModule: require('ipfs-http-client'),
     ipfsBin,
     ipfsOptions: {
       repo,
-      config: {
-        Pubsub: {
-          Router: 'gossipsub'
-        },
-        Bootstrap: [
-          '/dnsaddr/record.tint.space/p2p/QmYgXkG9rq2YGvzm2YZ55sFVjFvWH2p4o4bV7asxEh8zAS'
-        ],
-        Swarm: {
-          ConnMgr: {
-            HighWater: 100,
-            LowWater: 20
-          }
-        }
-      },
       preload: {
         enabled: false
       }
@@ -38,6 +63,8 @@ async function spawn ({ repo, ipfsBin }) {
   await ipfsd.init({
     profiles: ['badgerds']
   })
+
+  applyDefaults(ipfsd, { Identity })
 
   return ipfsd
 }
