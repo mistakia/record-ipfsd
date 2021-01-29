@@ -21,7 +21,7 @@ function applyDefaults (ipfsd, { Identity }) {
 
   config.API = { HTTPHeaders: {} }
 
-  config.Bootstrap = [ '/dnsaddr/record.tint.space/p2p/QmYgXkG9rq2YGvzm2YZ55sFVjFvWH2p4o4bV7asxEh8zAS' ]
+  config.Bootstrap = [ '/dnsaddr/record.tint.space/p2p/12D3KooWBrWMfqJhv1GQMtuYxp1NRL1mnJJZfz9iyaecjAkuZund' ]
   config.Swarm = config.Swarm || {}
   config.Swarm.DisableNatPortMap = false
   config.Swarm.ConnMgr = config.Swarm.ConnMgr || {}
