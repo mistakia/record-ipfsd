@@ -1,5 +1,6 @@
 const fs = require('fs')
 const jsonfile = require('jsonfile')
+const exec = require('child_process').exec
 const path = require('path')
 const { join } = require('path')
 const Ctl = require('ipfsd-ctl')
@@ -73,6 +74,20 @@ const rmApiFile = (ipfsd) => fs.unlinkSync(path.join(ipfsd.path, 'api'))
 const swarmKey = '/key/swarm/psk/1.0.0/\n/base16/\ncbad12031badbcad2a3cd5a373633fa725a7874de942d451227a9e909733454a'
 const copySwarmKey = (ipfsd) => fs.writeFileSync(path.join(ipfsd.path, 'swarm.key'), swarmKey)
 
+function hasLocal (ipfsBin, path) {
+  const command = `${ipfsBin} dag stat --offline --config ${path}`
+  return function (cid) {
+    return new Promise((resolve, reject) => {
+      exec(`${command} ${cid}`, (err, stdout, stderr) => {
+        if (err || stderr.toLowerCase().includes('error')) {
+          return reject(false)
+        }
+        resolve(true)
+      })
+    })
+  }
+}
+
 /**
  *
  * @param {Object} options
@@ -102,6 +117,8 @@ module.exports = async function (opts) {
     rmApiFile(ipfsd)
     await ipfsd.start()
   }
+
+  ipfsd.hasLocal = hasLocal(opts.ipfsBin, ipfsd.path)
 
   return ipfsd
 }
