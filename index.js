@@ -96,7 +96,7 @@ function hasLocal (ipfsBin, path) {
  * @param {String} options.ipfsBin
  * @return {Object}
  */
-module.exports = async function (opts) {
+module.exports = async function ({ log = console.log, ...opts } = {}) {
   const ipfsd = await spawn(opts)
 
   copySwarmKey(ipfsd)
@@ -105,15 +105,15 @@ module.exports = async function (opts) {
   try {
     await ipfsd.start()
     const { id, addresses } = await ipfsd.api.id()
-    opts.log(`[ipfsd] PeerID is ${id}`)
-    opts.log(`[ipfsd] Repo is at ${ipfsd.path}`)
-    addresses.forEach(address => opts.log(`[ipfsd] Listening at ${address}`))
+    log(`[ipfsd] PeerID is ${id}`)
+    log(`[ipfsd] Repo is at ${ipfsd.path}`)
+    addresses.forEach(address => log(`[ipfsd] Listening at ${address}`))
   } catch (err) {
     if (!err.message.includes('ECONNREFUSED')) {
       throw err
     }
 
-    opts.log('[daemon] removing api file')
+    log('[ipfsd] removing api file')
     rmApiFile(ipfsd)
     await ipfsd.start()
   }

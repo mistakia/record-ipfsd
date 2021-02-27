@@ -1,7 +1,7 @@
 {
   "name": "record-ipfsd",
   "version": "0.0.1",
-  "description": "manage ipfs daemons for record",
+  "description": "Manage IPFS daemons for Record: a distributed system for audio files",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
