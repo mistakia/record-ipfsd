@@ -22,7 +22,7 @@ function applyDefaults (ipfsd, { Identity }) {
 
   config.API = { HTTPHeaders: {} }
 
-  config.Bootstrap = [ '/dnsaddr/record.tint.space/p2p/12D3KooWBrWMfqJhv1GQMtuYxp1NRL1mnJJZfz9iyaecjAkuZund' ]
+  config.Bootstrap = ['/dnsaddr/record.tint.space/p2p/12D3KooWBrWMfqJhv1GQMtuYxp1NRL1mnJJZfz9iyaecjAkuZund']
   config.Swarm = config.Swarm || {}
   config.Swarm.DisableNatPortMap = false
   config.Swarm.ConnMgr = config.Swarm.ConnMgr || {}
@@ -80,7 +80,7 @@ function hasLocal (ipfsBin, path) {
     return new Promise((resolve, reject) => {
       exec(`${command} ${cid}`, (err, stdout, stderr) => {
         if (err || stderr.toLowerCase().includes('error')) {
-          return reject(false)
+          return resolve(false)
         }
         resolve(true)
       })

@@ -4,9 +4,15 @@
   "description": "Manage IPFS daemons for Record: a distributed system for audio files",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "lint": "standard ."
+  },
   "dependencies": {
     "ipfs-http-client": "47.0.1",
     "ipfsd-ctl": "7.2.0",
     "jsonfile": "^6.1.0"
+  },
+  "devDependencies": {
+    "standard": "^16.0.3"
   }
 }
