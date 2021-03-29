@@ -75,7 +75,7 @@ const swarmKey = '/key/swarm/psk/1.0.0/\n/base16/\ncbad12031badbcad2a3cd5a373633
 const copySwarmKey = (ipfsd) => fs.writeFileSync(path.join(ipfsd.path, 'swarm.key'), swarmKey)
 
 function hasLocal (ipfsBin, path) {
-  const command = `${ipfsBin} dag stat --offline --config ${path}`
+  const command = `${ipfsBin} dag stat --offline --config "${path}"`
   return function (cid) {
     return new Promise((resolve, reject) => {
       exec(`${command} ${cid}`, (err, stdout, stderr) => {
